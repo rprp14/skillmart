@@ -1,4 +1,4 @@
-# SkillMart � Digital Services Marketplace
+# SkillMart – Digital Services Marketplace
 
 SkillMart is a production-ready student-focused digital services marketplace inspired by Fiverr. It supports buyers, sellers, and admins with complete service, order, review, and analytics workflows.
 
@@ -254,3 +254,18 @@ This project now includes the following production modules:
   - `GET /api/portfolio/:sellerId`
   - `PUT /api/portfolio/:id`
   - `DELETE /api/portfolio/:id`
+
+---
+
+## 👨‍💻 Author
+
+**Pranjal Bodke**  
+Full Stack Developer  
+
+- 🎓 B.E. Computer Science Engineering  
+- 💡 Passionate about Backend Systems & Scalable Architecture  
+- 🚀 Built SkillMart – Full Stack Marketplace with Escrow & Invoice System  
+
+📫 Connect with me:  
+- LinkedIn: https://www.linkedin.com/in/pranjali-bodke-404111282/
+- GitHub: https://github.com/rprp14
