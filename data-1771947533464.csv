@@ -1,0 +1,5 @@
+"id","title","description","price","category","rating","rating_count","approval_status","created_at","updated_at","seller_id","tags","packages","views","purchases","category_id"
+1,"Modern Portfolio Website Design","I will design and deliver a responsive personal portfolio website with 4-5 sections (Home, About, Projects, Contact), modern UI, clean layout, and basic SEO-friendly structure.","75","Web Design","0",0,"approved","2026-02-21 21:30:30.649+05:30","2026-02-22 00:03:52.907+05:30",2,"[]",NULL,0,0,NULL
+2,"Data Analytics","Data about data","1000","Data","0",0,"approved","2026-02-21 22:46:16.684+05:30","2026-02-22 00:04:18.052+05:30",2,"[]",NULL,0,0,NULL
+4,"Devops Engineer","Docker podman","250","Devops","0",0,"approved","2026-02-23 21:17:31.319+05:30","2026-02-23 21:17:43.837+05:30",4,"[]",NULL,0,0,NULL
+3,"a","c","190","b","0",0,"approved","2026-02-21 22:52:21.075+05:30","2026-02-24 21:00:29.834+05:30",4,"[]",NULL,0,1,NULL

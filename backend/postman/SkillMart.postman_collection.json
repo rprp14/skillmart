@@ -1,0 +1,502 @@
+﻿{
+  "info": {
+    "name": "SkillMart API",
+    "description": "Postman collection for SkillMart backend (PostgreSQL edition).",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_postman_id": "skillmart-api-collection"
+  },
+  "item": [
+    {
+      "name": "Health",
+      "item": [
+        {
+          "name": "Root",
+          "request": {
+            "method": "GET",
+            "url": "{{base_url_root}}/"
+          }
+        },
+        {
+          "name": "API Root",
+          "request": {
+            "method": "GET",
+            "url": "{{base_url}}"
+          }
+        },
+        {
+          "name": "Health Check",
+          "request": {
+            "method": "GET",
+            "url": "{{base_url}}/health"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Register Buyer",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Buyer Demo\",\n  \"email\": \"buyer_demo@example.com\",\n  \"password\": \"123456\",\n  \"role\": \"buyer\"\n}"
+            },
+            "url": "{{base_url}}/auth/register"
+          }
+        },
+        {
+          "name": "Register Seller",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Seller Demo\",\n  \"email\": \"seller_demo@example.com\",\n  \"password\": \"123456\",\n  \"role\": \"seller\"\n}"
+            },
+            "url": "{{base_url}}/auth/register"
+          }
+        },
+        {
+          "name": "Login Buyer (Save Token)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const data = pm.response.json();",
+                  "if (data.token) pm.environment.set('buyer_token', data.token);",
+                  "if (data.user?.id) pm.environment.set('buyer_id', data.user.id);"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"buyer_demo@example.com\",\n  \"password\": \"123456\"\n}"
+            },
+            "url": "{{base_url}}/auth/login"
+          }
+        },
+        {
+          "name": "Login Seller (Save Token)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const data = pm.response.json();",
+                  "if (data.token) pm.environment.set('seller_token', data.token);",
+                  "if (data.user?.id) pm.environment.set('seller_id', data.user.id);"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"seller_demo@example.com\",\n  \"password\": \"123456\"\n}"
+            },
+            "url": "{{base_url}}/auth/login"
+          }
+        },
+        {
+          "name": "Login Admin (Save Token)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const data = pm.response.json();",
+                  "if (data.token) pm.environment.set('admin_token', data.token);",
+                  "if (data.user?.id) pm.environment.set('admin_id', data.user.id);"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"admin123@gmail.com\",\n  \"password\": \"123456\"\n}"
+            },
+            "url": "{{base_url}}/auth/login"
+          }
+        },
+        {
+          "name": "My Profile",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{buyer_token}}" }
+            ],
+            "url": "{{base_url}}/auth/me"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Services",
+      "item": [
+        {
+          "name": "Create Service (Seller)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const data = pm.response.json();",
+                  "if (data.service?.id) pm.environment.set('service_id', data.service.id);"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{seller_token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Logo Design Pro\",\n  \"description\": \"Professional logo with source files and 2 revisions\",\n  \"price\": 45,\n  \"category\": \"Design\"\n}"
+            },
+            "url": "{{base_url}}/services"
+          }
+        },
+        {
+          "name": "Get Approved Services",
+          "request": {
+            "method": "GET",
+            "url": "{{base_url}}/services"
+          }
+        },
+        {
+          "name": "Search Services",
+          "request": {
+            "method": "GET",
+            "url": "{{base_url}}/services?q=logo"
+          }
+        },
+        {
+          "name": "Get Service By Id",
+          "request": {
+            "method": "GET",
+            "url": "{{base_url}}/services/{{service_id}}"
+          }
+        },
+        {
+          "name": "Update Service (Seller)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{seller_token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Logo Design Pro Plus\",\n  \"description\": \"Updated package with branding guide\",\n  \"price\": 60,\n  \"category\": \"Design\"\n}"
+            },
+            "url": "{{base_url}}/services/{{service_id}}"
+          }
+        },
+        {
+          "name": "My Services (Seller)",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{seller_token}}" }
+            ],
+            "url": "{{base_url}}/services/my/list"
+          }
+        },
+        {
+          "name": "Trending Services",
+          "request": {
+            "method": "GET",
+            "url": "{{base_url}}/services/trending"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Favorites",
+      "item": [
+        {
+          "name": "Add Favorite",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{buyer_token}}" }
+            ],
+            "url": "{{base_url}}/favorites/{{service_id}}"
+          }
+        },
+        {
+          "name": "List My Favorites",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{buyer_token}}" }
+            ],
+            "url": "{{base_url}}/favorites"
+          }
+        },
+        {
+          "name": "Remove Favorite",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{buyer_token}}" }
+            ],
+            "url": "{{base_url}}/favorites/{{service_id}}"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Admin",
+      "item": [
+        {
+          "name": "Get Users",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{admin_token}}" }
+            ],
+            "url": "{{base_url}}/admin/users"
+          }
+        },
+        {
+          "name": "Get All Services (Admin)",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{admin_token}}" }
+            ],
+            "url": "{{base_url}}/admin/services"
+          }
+        },
+        {
+          "name": "Approve Service",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{admin_token}}" }
+            ],
+            "url": "{{base_url}}/admin/service/{{service_id}}/approve"
+          }
+        },
+        {
+          "name": "Delete Service (Admin)",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{admin_token}}" }
+            ],
+            "url": "{{base_url}}/admin/service/{{service_id}}"
+          }
+        },
+        {
+          "name": "Delete User",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{admin_token}}" }
+            ],
+            "url": "{{base_url}}/admin/user/{{buyer_id}}"
+          }
+        },
+        {
+          "name": "Analytics",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{admin_token}}" }
+            ],
+            "url": "{{base_url}}/admin/analytics"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Orders",
+      "item": [
+        {
+          "name": "Checkout (Buyer)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const data = pm.response.json();",
+                  "if (Array.isArray(data.orders) && data.orders[0]?.id) pm.environment.set('order_id', data.orders[0].id);"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{buyer_token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"serviceIds\": [{{service_id}}]\n}"
+            },
+            "url": "{{base_url}}/orders/checkout"
+          }
+        },
+        {
+          "name": "Buyer Orders",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{buyer_token}}" }
+            ],
+            "url": "{{base_url}}/orders/buyer"
+          }
+        },
+        {
+          "name": "Seller Orders",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{seller_token}}" }
+            ],
+            "url": "{{base_url}}/orders/seller"
+          }
+        },
+        {
+          "name": "Update Status -> Accepted",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{seller_token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"Accepted\"\n}"
+            },
+            "url": "{{base_url}}/orders/{{order_id}}/status"
+          }
+        },
+        {
+          "name": "Update Status -> Completed",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{seller_token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"Completed\"\n}"
+            },
+            "url": "{{base_url}}/orders/{{order_id}}/status"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Reviews",
+      "item": [
+        {
+          "name": "Create Review (Buyer)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{buyer_token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"service\": {{service_id}},\n  \"rating\": 5,\n  \"comment\": \"Great quality and fast delivery\"\n}"
+            },
+            "url": "{{base_url}}/reviews"
+          }
+        },
+        {
+          "name": "Get Reviews by Service",
+          "request": {
+            "method": "GET",
+            "url": "{{base_url}}/reviews/{{service_id}}"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Notifications",
+      "item": [
+        {
+          "name": "My Notifications (Buyer)",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{buyer_token}}" }
+            ],
+            "url": "{{base_url}}/notifications"
+          }
+        },
+        {
+          "name": "Mark Notification Read",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{buyer_token}}" }
+            ],
+            "url": "{{base_url}}/notifications/{{notification_id}}/read"
+          }
+        },
+        {
+          "name": "Mark All Notifications Read",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{buyer_token}}" }
+            ],
+            "url": "{{base_url}}/notifications/read-all"
+          }
+        }
+      ]
+    }
+  ],
+  "variable": [
+    { "key": "base_url_root", "value": "http://localhost:5000" },
+    { "key": "base_url", "value": "http://localhost:5000/api" },
+    { "key": "buyer_token", "value": "" },
+    { "key": "seller_token", "value": "" },
+    { "key": "admin_token", "value": "" },
+    { "key": "buyer_id", "value": "" },
+    { "key": "seller_id", "value": "" },
+    { "key": "admin_id", "value": "" },
+    { "key": "service_id", "value": "1" },
+    { "key": "order_id", "value": "1" },
+    { "key": "notification_id", "value": "1" }
+  ]
+}

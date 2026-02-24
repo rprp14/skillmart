@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 240" role="img" aria-label="Buyer dashboard visual">
+  <rect width="640" height="240" rx="20" fill="#ecfeff"/>
+  <rect x="48" y="34" width="544" height="172" rx="14" fill="#ffffff" stroke="#cbd5e1"/>
+  <rect x="84" y="72" width="180" height="18" rx="9" fill="#0f766e" opacity="0.85"/>
+  <rect x="84" y="104" width="220" height="12" rx="6" fill="#94a3b8" opacity="0.35"/>
+  <rect x="84" y="126" width="200" height="12" rx="6" fill="#94a3b8" opacity="0.25"/>
+  <circle cx="470" cy="110" r="44" fill="#99f6e4"/>
+  <path d="M430 165c8-26 24-38 40-38s32 12 40 38" fill="#a7f3d0"/>
+</svg>

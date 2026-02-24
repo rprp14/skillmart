@@ -1,0 +1,30 @@
+{
+  "invoiceNumber": "INV-20260223-104-J82KD1",
+  "invoiceDate": "2026-02-23T10:30:00.000Z",
+  "dueDate": "2026-03-01T10:30:00.000Z",
+  "paymentTerms": "Due within 7 days",
+  "sellerDetails": {
+    "name": "Jane Seller",
+    "email": "jane.seller@skillmart.test",
+    "contact": "+1-202-555-0199",
+    "address": "12 Market Street, Springfield"
+  },
+  "buyerDetails": {
+    "name": "John Buyer",
+    "email": "john.buyer@skillmart.test",
+    "contact": "+1-202-555-0144",
+    "address": "88 Hill Road, Riverdale"
+  },
+  "lineItems": [
+    {
+      "description": "Responsive Landing Page Design",
+      "unitPrice": 120,
+      "quantity": 1,
+      "subtotal": 120
+    }
+  ],
+  "subtotal": 120,
+  "taxRate": 0,
+  "taxAmount": 0,
+  "totalAmount": 120
+}

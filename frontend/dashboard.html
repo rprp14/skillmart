@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SkillMart | Dashboard</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg bg-white border-bottom sticky-top">
+    <div class="container">
+      <a class="navbar-brand brand-mark" href="index.html"><img src="assets/skillmart-logo.svg" alt="SkillMart logo" class="brand-logo" /><span>SkillMart</span></a>
+      <div id="authArea"></div>
+    </div>
+  </nav>
+
+  <main class="container py-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <h1 class="h4 mb-0">Dashboard</h1>
+      <a class="btn btn-outline-secondary btn-sm" href="index.html">Explore Services</a>
+    </div>
+
+    <div class="row g-4">
+      <div class="col-lg-4 profile-column">
+        <div class="card shadow-sm profile-card">
+          <div class="card-body">
+            <h2 class="h5">My Profile</h2>
+            <div id="userInfo"></div>
+            <a class="btn btn-outline-dark btn-sm mt-2" href="orders.html">View Orders Page</a>
+          </div>
+        </div>
+        <div class="card shadow-sm mt-4">
+          <div class="card-body">
+            <h2 class="h5">Subscription</h2>
+            <div id="subscriptionInfo" class="small text-muted mb-2">Loading...</div>
+            <div class="d-flex gap-2 flex-wrap">
+              <button class="btn btn-sm btn-outline-success" data-plan="Free" id="upgradeFreeBtn">Switch Free</button>
+              <button class="btn btn-sm btn-outline-primary" data-plan="Pro" id="upgradeProBtn">Upgrade Pro</button>
+              <button class="btn btn-sm btn-outline-dark" data-plan="Premium" id="upgradePremiumBtn">Upgrade Premium</button>
+            </div>
+            <div id="subscriptionAlert" class="mt-2"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-8">
+        <div class="card shadow-sm mb-4" id="quickFavoritesCard">
+          <div class="card-body">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <h2 class="h5 mb-0">Quick Favorites</h2>
+              <div class="d-flex gap-2">
+                <a class="btn btn-outline-dark btn-sm" href="cart.html">Go to Cart</a>
+                <a class="btn btn-outline-secondary btn-sm" href="favorites.html">Open Favorites</a>
+              </div>
+            </div>
+            <p class="text-muted small mb-3">Add services to favorites directly from dashboard.</p>
+            <img src="assets/buyer-visual.svg" class="img-fluid rounded section-image mb-3" alt="Buyer section visual" />
+            <div id="dashboardFavoriteAlert"></div>
+            <ul id="dashboardServices" class="list-group"></ul>
+          </div>
+        </div>
+
+        <div class="card shadow-sm mb-4">
+          <div class="card-body">
+            <h2 class="h5">My Buyer Orders</h2>
+            <img src="assets/buyer-visual.svg" class="img-fluid rounded section-image mb-3" alt="Buyer orders visual" />
+            <ul id="buyerOrders" class="list-group"></ul>
+          </div>
+        </div>
+
+        <div class="card shadow-sm mb-4">
+          <div class="card-body">
+            <div class="d-flex justify-content-between align-items-center">
+              <h2 class="h5 mb-0">Wallet & Transactions</h2>
+              <span class="badge text-bg-light border" id="walletBalanceBadge">$0.00</span>
+            </div>
+            <div id="walletAlert" class="mt-2"></div>
+            <form id="withdrawForm" class="row g-2 mt-1">
+              <div class="col-8 col-md-9">
+                <input type="number" min="1" step="0.01" class="form-control" name="amount" placeholder="Withdraw amount" required />
+              </div>
+              <div class="col-4 col-md-3">
+                <button class="btn btn-outline-dark w-100" type="submit">Withdraw</button>
+              </div>
+            </form>
+            <ul id="walletTransactions" class="list-group mt-3"></ul>
+          </div>
+        </div>
+
+        <div class="card shadow-sm mb-4">
+          <div class="card-body">
+            <h2 class="h5">Disputes</h2>
+            <div id="disputeAlert" class="mb-2"></div>
+            <form id="raiseDisputeForm" class="row g-2 mb-3">
+              <div class="col-md-3">
+                <input type="number" class="form-control" name="orderId" placeholder="Order ID" required />
+              </div>
+              <div class="col-md-5">
+                <input type="text" class="form-control" name="reason" placeholder="Reason (min 10 chars)" required />
+              </div>
+              <div class="col-md-4">
+                <input type="url" class="form-control" name="proofUrl" placeholder="Proof URL (optional)" />
+              </div>
+              <div class="col-12">
+                <button class="btn btn-outline-danger btn-sm" type="submit">Raise Dispute</button>
+              </div>
+            </form>
+            <ul id="disputeList" class="list-group"></ul>
+          </div>
+        </div>
+
+        <section id="sellerSection" class="d-none">
+          <img src="assets/seller-visual.svg" class="img-fluid rounded section-image mb-3" alt="Seller section visual" />
+
+          <div class="card shadow-sm mb-4">
+            <div class="card-body">
+              <h2 class="h5">Seller Analytics</h2>
+              <div class="row g-2" id="sellerAnalytics"></div>
+            </div>
+          </div>
+
+          <div class="card shadow-sm mb-4">
+            <div class="card-body">
+              <h2 class="h5">Seller Performance</h2>
+              <div class="row g-2" id="sellerPerformance"></div>
+            </div>
+          </div>
+
+          <div class="card shadow-sm mb-4">
+            <div class="card-body">
+              <h2 class="h5">Create New Service</h2>
+              <div id="serviceCreateAlert"></div>
+              <form id="createServiceForm" class="row g-2">
+                <div class="col-md-6">
+                  <input type="text" class="form-control" name="title" placeholder="Title" required />
+                </div>
+                <div class="col-md-6">
+                  <input class="form-control" name="category" id="categoryInput" list="categoryOptions" placeholder="Category" required />
+                  <datalist id="categoryOptions"></datalist>
+                </div>
+                <div class="col-12">
+                  <textarea class="form-control" name="description" rows="3" placeholder="Description" required></textarea>
+                </div>
+                <div class="col-12">
+                  <input type="text" class="form-control" name="tags" placeholder="Tags (comma separated)" />
+                </div>
+                <div class="col-md-4">
+                  <input type="number" class="form-control" name="price" placeholder="Price" min="1" required />
+                </div>
+                <div class="col-md-8">
+                  <button class="btn btn-brand" type="submit">Submit Service</button>
+                </div>
+                <div class="col-12 mt-3">
+                  <div class="form-section-title">Package Tiers (optional)</div>
+                </div>
+                <div class="col-md-4">
+                  <input type="number" class="form-control" name="basicPrice" placeholder="Basic price" min="1" />
+                  <textarea class="form-control mt-2" name="basicDescription" rows="2" placeholder="Basic package details"></textarea>
+                </div>
+                <div class="col-md-4">
+                  <input type="number" class="form-control" name="standardPrice" placeholder="Standard price" min="1" />
+                  <textarea class="form-control mt-2" name="standardDescription" rows="2" placeholder="Standard package details"></textarea>
+                </div>
+                <div class="col-md-4">
+                  <input type="number" class="form-control" name="premiumPrice" placeholder="Premium price" min="1" />
+                  <textarea class="form-control mt-2" name="premiumDescription" rows="2" placeholder="Premium package details"></textarea>
+                </div>
+              </form>
+            </div>
+          </div>
+
+          <div class="card shadow-sm mb-4">
+            <div class="card-body">
+              <h2 class="h5">My Services</h2>
+              <ul id="myServices" class="list-group"></ul>
+            </div>
+          </div>
+
+          <div class="card shadow-sm mb-4">
+            <div class="card-body">
+              <h2 class="h5">My Portfolio</h2>
+              <div id="portfolioAlert"></div>
+              <form id="portfolioForm" class="row g-2 mb-3">
+                <div class="col-md-4"><input class="form-control" name="title" placeholder="Title" required /></div>
+                <div class="col-md-4"><input class="form-control" name="imageUrl" placeholder="Image URL" required /></div>
+                <div class="col-md-4"><input class="form-control" name="description" placeholder="Description" /></div>
+                <div class="col-12"><button class="btn btn-outline-secondary btn-sm" type="submit">Add Portfolio Item</button></div>
+              </form>
+              <ul id="portfolioList" class="list-group"></ul>
+            </div>
+          </div>
+
+          <div class="card shadow-sm">
+            <div class="card-body">
+              <h2 class="h5">Seller Orders</h2>
+              <ul id="sellerOrders" class="list-group"></ul>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <script src="js/app.js?v=20260223c"></script>
+</body>
+</html>
