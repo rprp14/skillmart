@@ -118,12 +118,6 @@ const startServer = async () => {
   });
 const path = require('path');
 
-app.use(express.static(path.join(__dirname, '../frontend')));
-
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../frontend/index.html'));
-});
-  const path = require("path");
 
 // Serve static frontend files
 app.use(express.static(path.join(__dirname, "../frontend")));
