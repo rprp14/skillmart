@@ -123,6 +123,15 @@ app.use(express.static(path.join(__dirname, '../frontend')));
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '../frontend/index.html'));
 });
+  const path = require("path");
+
+// Serve static frontend files
+app.use(express.static(path.join(__dirname, "../frontend")));
+
+// Handle frontend routes
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "../frontend/index.html"));
+});
   app.listen(PORT, () => {
     console.log(`Server running in ${process.env.NODE_ENV || 'development'} mode on port ${PORT}`);
   });
