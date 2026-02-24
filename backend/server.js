@@ -33,6 +33,7 @@ const allowedOrigins = (process.env.FRONTEND_URLS || process.env.FRONTEND_URL ||
   .split(',')
   .map((origin) => origin.trim())
   .filter(Boolean);
+
 const isDev = (process.env.NODE_ENV || 'development') !== 'production';
 
 app.set('trust proxy', 1);
@@ -42,18 +43,21 @@ app.use(
   cors({
     origin: (origin, callback) => {
       if (!origin) return callback(null, true);
-      // In local development, allow localhost/127.0.0.1 from any port.
+
       if (isDev && /^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/.test(origin)) {
         return callback(null, true);
       }
+
       if (allowedOrigins.length === 0 || allowedOrigins.includes(origin)) {
         return callback(null, true);
       }
+
       return callback(new Error(`CORS blocked for origin: ${origin}`));
     },
     credentials: false
   })
 );
+
 app.use(helmet());
 app.use(express.json({ limit: '10kb' }));
 
@@ -71,11 +75,7 @@ if (process.env.NODE_ENV !== 'production') {
   app.use(morgan('dev'));
 }
 
-app.get('/', (req, res) => {
-  res.status(200).json({
-    message: 'SkillMart backend is running. Use /api/health or /api/* endpoints.'
-  });
-});
+/* ================= API ROUTES ================= */
 
 app.get('/api/health', (req, res) => {
   res.status(200).json({ message: 'SkillMart API is running' });
@@ -84,11 +84,30 @@ app.get('/api/health', (req, res) => {
 app.get('/api', (req, res) => {
   res.status(200).json({
     message: 'SkillMart API root',
-    routes: ['/api/health', '/api/auth', '/api/services', '/api/orders', '/api/reviews', '/api/admin', '/api/favorites', '/api/notifications', '/api/invoices', '/api/disputes', '/api/analytics', '/api/wallet', '/api/categories', '/api/subscriptions', '/api/withdrawals', '/api/coupons', '/api/portfolio']
+    routes: [
+      '/api/health',
+      '/api/auth',
+      '/api/services',
+      '/api/orders',
+      '/api/reviews',
+      '/api/admin',
+      '/api/favorites',
+      '/api/notifications',
+      '/api/invoices',
+      '/api/disputes',
+      '/api/analytics',
+      '/api/wallet',
+      '/api/categories',
+      '/api/subscriptions',
+      '/api/withdrawals',
+      '/api/coupons',
+      '/api/portfolio'
+    ]
   });
 });
 
 app.use('/invoices', express.static(path.join(__dirname, 'storage', 'invoices')));
+
 app.use('/api/auth', authRoutes);
 app.use('/api/services', serviceRoutes);
 app.use('/api/orders', orderRoutes);
@@ -106,6 +125,16 @@ app.use('/api/withdrawals', withdrawalRoutes);
 app.use('/api/coupons', couponRoutes);
 app.use('/api/portfolio', portfolioRoutes);
 
+/* ================= SERVE FRONTEND ================= */
+
+app.use(express.static(path.join(__dirname, '../frontend')));
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../frontend/index.html'));
+});
+
+/* ================= ERROR HANDLER ================= */
+
 app.use(notFound);
 app.use(errorHandler);
 
@@ -116,18 +145,11 @@ const startServer = async () => {
   await sequelize.sync({
     alter: (process.env.NODE_ENV || 'development') !== 'production'
   });
-const path = require('path');
 
-
-// Serve static frontend files
-app.use(express.static(path.join(__dirname, "../frontend")));
-
-// Handle frontend routes
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "../frontend/index.html"));
-});
   app.listen(PORT, () => {
-    console.log(`Server running in ${process.env.NODE_ENV || 'development'} mode on port ${PORT}`);
+    console.log(
+      `Server running in ${process.env.NODE_ENV || 'development'} mode on port ${PORT}`
+    );
   });
 };
 
