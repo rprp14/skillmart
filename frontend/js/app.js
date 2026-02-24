@@ -1,4 +1,4 @@
-const API_BASE = localStorage.getItem('skillmart_api_base') || 'http://localhost:5000/api';
+const API_BASE = '/api';
 
 const getToken = () => localStorage.getItem('skillmart_token');
 const getUser = () => {
