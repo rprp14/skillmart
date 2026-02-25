@@ -167,18 +167,6 @@ const startServer = async () => {
       await sequelize.sync();
       console.log('Database synced (production mode).');
     }
-
-    app.listen(PORT, () => {
-      console.log(
-        `Server running in ${process.env.NODE_ENV || 'development'} mode on port ${PORT}`
-      );
-    });
-  } catch (error) {
-    console.error('Server startup failed:', error);
-    process.exit(1);
-  }
-};
-
   
 
   app.listen(PORT, () => {
