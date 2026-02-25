@@ -1696,7 +1696,7 @@ const initAdminPage = async () => {
   }
 };
 
-const enforceEntryRoute = () => {
+/*const enforceEntryRoute = () => {
   const page = window.location.pathname.split('/').pop() || 'index.html';
   const user = getUser();
   const token = getToken();
@@ -1712,6 +1712,37 @@ const enforceEntryRoute = () => {
 
   if (isAuthPage || page === 'index.html') {
     window.location.replace(user.role === 'admin' ? 'admin.html' : 'dashboard.html');
+    return true;
+  }
+
+  return false;
+};*/
+const enforceEntryRoute = () => {
+  const page = window.location.pathname.split('/').pop() || 'index.html';
+  const user = getUser();
+  const token = getToken();
+  const isAuthPage = page === 'login.html' || page === 'register.html';
+
+  // ✅ Always redirect root (/) or index.html to login page
+  if (page === '' || page === 'index.html') {
+    window.location.replace('login.html');
+    return true;
+  }
+
+  // ✅ If user is NOT logged in and trying to access protected pages
+  if (!token || !user) {
+    if (!isAuthPage) {
+      window.location.replace('login.html');
+      return true;
+    }
+    return false;
+  }
+
+  // ✅ If logged in and trying to access login/register again
+  if (token && user && isAuthPage) {
+    window.location.replace(
+      user.role === 'admin' ? 'admin.html' : 'dashboard.html'
+    );
     return true;
   }
 
