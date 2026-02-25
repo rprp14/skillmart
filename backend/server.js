@@ -127,12 +127,59 @@ app.use(notFound);
 app.use(errorHandler);
 
 const PORT = process.env.PORT || 5000;
+const bcrypt = require('bcryptjs');
+const { User } = require('./models');
 
-const startServer = async () => {
+const seedAdmin = async () => {
+  const adminEmail = "admin@skillmart.com";
+
+  const existing = await User.findOne({ where: { email: adminEmail } });
+
+  if (!existing) {
+    const hashedPassword = await bcrypt.hash("admin123", 10);
+
+    await User.create({
+      name: "Super Admin",
+      email: adminEmail,
+      password: hashedPassword,
+      role: "admin"
+    });
+
+    console.log("Admin seeded successfully");
+  }
+};
+
+/*const startServer = async () => {
   await connectDB();
   await sequelize.sync({
     alter: (process.env.NODE_ENV || 'development') !== 'production'
-  });
+  });*/
+
+const startServer = async () => {
+  try {
+    await connectDB();
+
+    // In development allow alter, in production do safe sync
+    if ((process.env.NODE_ENV || 'development') !== 'production') {
+      await sequelize.sync({ alter: true });
+      console.log('Database synced (development mode with alter).');
+    } else {
+      await sequelize.sync();
+      console.log('Database synced (production mode).');
+    }
+
+    app.listen(PORT, () => {
+      console.log(
+        `Server running in ${process.env.NODE_ENV || 'development'} mode on port ${PORT}`
+      );
+    });
+  } catch (error) {
+    console.error('Server startup failed:', error);
+    process.exit(1);
+  }
+};
+
+  
 
   app.listen(PORT, () => {
     console.log(
