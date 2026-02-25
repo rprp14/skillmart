@@ -149,17 +149,10 @@ const seedAdmin = async () => {
   }
 };
 
-/*const startServer = async () => {
-  await connectDB();
-  await sequelize.sync({
-    alter: (process.env.NODE_ENV || 'development') !== 'production'
-  });*/
-
 const startServer = async () => {
   try {
     await connectDB();
 
-    // In development allow alter, in production do safe sync
     if ((process.env.NODE_ENV || 'development') !== 'production') {
       await sequelize.sync({ alter: true });
       console.log('Database synced (development mode with alter).');
@@ -167,12 +160,19 @@ const startServer = async () => {
       await sequelize.sync();
       console.log('Database synced (production mode).');
     }
-  
 
-  app.listen(PORT, () => {
-    console.log(
-      `Server running in ${process.env.NODE_ENV || 'development'} mode on port ${PORT}`
-    );
-  });
+    await seedAdmin();
+
+    app.listen(PORT, () => {
+      console.log(
+        `Server running in ${process.env.NODE_ENV || 'development'} mode on port ${PORT}`
+      );
+    });
+
+  } catch (error) {
+    console.error('Server startup failed:', error);
+    process.exit(1);
+  }
+};
 
 startServer();
